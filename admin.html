@@ -65,7 +65,7 @@
 
                             <a href="notify.html" class="btn-theme btn-theme-sm btn-white-brd text-uppercase but"><i class="fa fa-envelope" style="font-size: 80px;" aria-hidden="true"></i>
                             </a>
-                            <a href="view.html" class="btn-theme btn-theme-sm btn-white-brd text-uppercase but"><i class="fa fa-eye" style="font-size: 80px;" aria-hidden="true"></i>
+                            <a href="view.html" class="btn-theme btn-theme-sm btn-white-brd text-uppercase but" id="vieww"><i class="fa fa-eye" style="font-size: 80px;" aria-hidden="true"></i>
                             </a>
                             
                             <button id="logout" class="btn-theme btn-theme-sm btn-white-brd but">
@@ -110,6 +110,48 @@
                 location.replace("login.html");
             }
         </script>
+
+
+<script>
+    
+    var b=new Date()
+            db.collection("Exams").where("Date","<",b).get().then(function(doc){
+            var i=0;
+            
+            doc.forEach(function(da){
+              var ttt= da.data();
+              console.log(da.id)
+
+                db.collection("Users").doc(ttt.faculty).get().then(function(doc){
+                    var t1=doc.data().exam
+                    console.log(t1)
+                    const index = t1.indexOf(da.id);
+                    
+                    t1.splice(index, 1);
+                    console.log(t1)
+
+                    db.collection("Users").doc(ttt.faculty).update({
+                        exam:t1
+                    })
+                    
+
+                    
+                })
+
+
+
+            })
+
+            if(i==1){
+                console.log("yes")
+            }
+            else{
+                console.log("ok")
+            }
+
+
+
+        });</script>
         <script src="gooutad.js"></script>
 
     <!-- END BODY -->
